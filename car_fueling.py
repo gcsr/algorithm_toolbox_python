@@ -1,3 +1,18 @@
+from sys import stdin
+
+def min_refills_sum(distance, tank, stops):
+    # write your code here
+    total_stops_distance = stops[0]
+    if stops[0] > tank:
+        return -1
+    for i in range(1, len(stops)-1):
+        total_stops_distance += stops[i] - stops[i-1]
+        if stops[i] - stops[i-1] > tank:
+            return -1
+    if distance > total_stops_distance + tank:
+        return -1
+    return distance // tank
+
 def min_refills(distance, tank, stops):
     # write your code here
     if stops[0] > tank:
@@ -12,7 +27,7 @@ def min_refills(distance, tank, stops):
         if stops[i+1] - stops[i] > tank:
             return -1
         if stops[i+1] - stops[i] > tank_left:
-            print("filling at stop ", stops[i])
+            # print("filling at stop ", stops[i])
             refills += 1
             tank_left = tank
         tank_left -= stops[i+1] - stops[i]
@@ -23,18 +38,11 @@ def min_refills(distance, tank, stops):
         if distance - distance_covered > tank:
             return -1
         elif tank_left < distance - distance_covered:
-            print("filling at end ", stops[len(stops)-1])
+            # print("filling at end ", stops[len(stops) - 1])
             refills += 1
     return refills
 
-if __name__ == "__main__":
-    '''a = [5,2,3]
-    b= [1,2,1]
-    cost_arrays = []
-    for i in range(len(a)):
-        cost_arrays.append(a[i] / b[i])
-    sorted_cost_array = sorted(range(len(cost_arrays)), key = lambda k : cost_arrays[k], reverse = True)
-    print(cost_arrays)
-    print(sorted_cost_array)'''
-    # print(min_refills(1000, 200, [200, 400, 800, 900]))
-    print(sorted([[1, 2],[1, 3], [2,4], [2,3]]))
+if __name__ == '__main__':
+    d, m, _, *stops = map(int, stdin.read().split())
+    print(min_refills(d, m, stops))
+    # print(min_refills(1250, 250, [200, 400, 600, 800, 1000]))
